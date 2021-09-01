@@ -431,12 +431,14 @@ class _MandibulaState extends State<Mandibula> {
             ListTile(
               title: new Text("Circunferencial Modificado"),
               onTap: () {
+                showModalDentesComCircuferencial(context);
                 //setConectorVisibility("c_recobrimento_palatino_mediano");
               },
             ),
             ListTile(
               title: new Text("Contínuo Kennedy"),
               onTap: () {
+                showModalDentesComKennedy(context);
                 //setConectorVisibility("c_recobrimento_palatino_mediano");
               },
             ),
@@ -594,6 +596,101 @@ class _MandibulaState extends State<Mandibula> {
                 setGrampoVisibility("48","mesial");
               },
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showModalDentesComCircuferencial(BuildContext context) {
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height *0.3,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+            ),
+            ListTile(
+              title: new Text("31"),
+              onTap: () {
+                setGrampoVisibility("31","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text("32"),
+              onTap: () {
+                setGrampoVisibility("32","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('33'),
+              onTap: () {
+                setGrampoVisibility("33","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('41'),
+              onTap: () {
+                setGrampoVisibility("41","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('42'),
+              onTap: () {
+                setGrampoVisibility("42","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('43'),
+              onTap: () {
+                setGrampoVisibility("43","circunferencial");
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showModalDentesComKennedy(BuildContext context) {
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height *0.3,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+            ),
+            ListTile(
+              title: new Text("31"),
+              onTap: () {
+                setGrampoVisibility("31","kennedy");
+              },
+            ),
+            ListTile(
+              title: new Text("32"),
+              onTap: () {
+                setGrampoVisibility("32","kennedy");
+              },
+            ),
+            ListTile(
+              title: new Text('41'),
+              onTap: () {
+                setGrampoVisibility("41","kennedy");
+              },
+            ),
+            ListTile(
+              title: new Text('42'),
+              onTap: () {
+                setGrampoVisibility("42","kennedy");
+              },
+            ),
+
           ],
         ),
       ),
