@@ -1,14 +1,19 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_cube/flutter_cube.dart';
 import 'package:proteasy/home.dart';
 import 'package:proteasy/mandibula.dart';
 import 'package:proteasy/maxila.dart';
+import 'package:proteasy/models.dart';
 import 'exercicios.dart';
 import 'package:proteasy/projetos.dart';
 import 'package:flutter/material.dart';
 import 'info.dart';
 
 class SecondRoute extends StatefulWidget {
-  const SecondRoute({Key? key}) : super(key: key);
+  String? objMandName;
+  String? objMaxiName;
+
+  SecondRoute({Key? key, this.objMandName, this.objMaxiName}) : super(key: key);
 
   @override
   State createState() => _SecondRouteState();
@@ -18,7 +23,8 @@ class _SecondRouteState extends State<SecondRoute> {
   final _formKey = GlobalKey<FormState>();
   bool _showNotch = true;
 
-
+  final key = new GlobalKey<MandibulaState>();
+  TextEditingController textName = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,9 @@ class _SecondRouteState extends State<SecondRoute> {
             appBar: AppBar(
               bottom: const TabBar(
                 tabs: [
-                  Tab(text: "Mandíbula",),
+                  Tab(
+                    text: "Mandíbula",
+                  ),
                   Tab(text: "Maxila"),
                 ],
               ),
@@ -41,13 +49,14 @@ class _SecondRouteState extends State<SecondRoute> {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (context) => Projetos()),
-                  );},
+                  );
+                },
               ),
               title: const Text('Novo Projeto'),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(
-                  Icons.save_outlined,
+                    Icons.save_outlined,
                   ),
                   onPressed: () {
                     showDialog(
@@ -77,20 +86,47 @@ class _SecondRouteState extends State<SecondRoute> {
                                     children: <Widget>[
                                       Padding(
                                         padding: EdgeInsets.all(8.0),
-                                        child: TextFormField(),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: TextFormField(),
+                                        child: TextFormField(
+                                          controller: textName,
+                                          decoration: InputDecoration(
+                                            labelText: "Nome do Paciente",
+                                            labelStyle: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14),
+                                            focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                              color: Colors.grey,
+                                              style: BorderStyle.solid,
+                                              width: 1.0,
+                                            )),
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.grey,
+                                                style: BorderStyle.solid,
+                                                width: 1.0,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: RaisedButton(
-                                          child: Text("Submit"),
-                                          onPressed: () {
-
-                                            }
-                                        ),
+                                        child: ElevatedButton(
+                                            child: Text("Salvar"),
+                                            onPressed: () {
+                                              var mand = key
+                                                  .currentState!.mandibulaState;
+                                              if (mand != null) {
+                                                saveObjectInstance(
+                                                    mand, textName.text.trim());
+                                              }
+                                              Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Projetos()),
+                                              );
+                                            }),
                                       )
                                     ],
                                   ),
@@ -109,7 +145,8 @@ class _SecondRouteState extends State<SecondRoute> {
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
                       title: const Text('Excluir Projeto'),
-                      content: const Text('Tem certeza que deseja excluir o projeto atual?'),
+                      content: const Text(
+                          'Tem certeza que deseja excluir o projeto atual?'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -119,7 +156,8 @@ class _SecondRouteState extends State<SecondRoute> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              new MaterialPageRoute(builder: (context) => Projetos()),
+                              new MaterialPageRoute(
+                                  builder: (context) => Projetos()),
                             );
                           },
                           child: const Text('Excluir'),
@@ -130,10 +168,13 @@ class _SecondRouteState extends State<SecondRoute> {
                 ),
               ],
             ),
-            body: const TabBarView(
+            body: TabBarView(
               physics: NeverScrollableScrollPhysics(),
               children: [
-                Mandibula(),
+                Mandibula(
+                  key: key,
+                  mandName: widget.objMandName,
+                ),
                 Maxila(),
               ],
             ),
@@ -146,9 +187,7 @@ class _SecondRouteState extends State<SecondRoute> {
     );
   }
 
-  _body() {
-
-  }
+  _body() {}
 }
 
 class _DemoBottomAppBar extends StatelessWidget {
@@ -156,10 +195,7 @@ class _DemoBottomAppBar extends StatelessWidget {
     this.shape = const CircularNotchedRectangle(),
   });
 
-
   final NotchedShape? shape;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -174,17 +210,18 @@ class _DemoBottomAppBar extends StatelessWidget {
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home_outlined),
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(builder: (context) => BottomAppBarDemo()),
+                  new MaterialPageRoute(
+                      builder: (context) => BottomAppBarDemo()),
                 );
               },
             ),
             IconButton(
               tooltip: 'Projetos',
               icon: const Icon(Icons.folder_outlined),
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => Projetos()),
@@ -194,8 +231,7 @@ class _DemoBottomAppBar extends StatelessWidget {
             IconButton(
               tooltip: 'Exercícios',
               icon: const Icon(Icons.list_alt),
-              onPressed: (){
-
+              onPressed: () {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => Exercicios()),

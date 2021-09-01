@@ -69,7 +69,10 @@ class _MaxilaState extends State<Maxila> {
           ListTile(title: new Text('Dentes'), onTap: () {
             showModalDentes(context);
           }),
-          ListTile(title: new Text('Grampos')),
+          ListTile(title: new Text('Grampos'),
+          onTap: (){
+            showModalGrampos(context);
+          },),
           ListTile(title: new Text('Selas'),
           onTap: (){
             showModalSelas(context);
@@ -371,6 +374,12 @@ class _MaxilaState extends State<Maxila> {
                 setConectorVisibility("c_recobrimento_palatino_mediano");
               },
             ),
+            ListTile(
+              title: new Text("Chapeado Palatino"),
+              onTap: () {
+                setConectorVisibility("c_chapeado_palatino");
+              },
+            ),
           ],
         ),
       ),
@@ -407,18 +416,21 @@ class _MaxilaState extends State<Maxila> {
             ListTile(
               title: new Text("Ackers Distal"),
               onTap: () {
+                showModalDentesComAckerDistal(context);
                 //setConectorVisibility("c_recobrimento_palatino_mediano");
               },
             ),
             ListTile(
               title: new Text("Ackers Mesial"),
               onTap: () {
+                showModalDentesComAckerMesial(context);
                 //setConectorVisibility("c_recobrimento_palatino_mediano");
               },
             ),
             ListTile(
               title: new Text("Circunferencial Modificado"),
               onTap: () {
+                showModalDentesComCircuferencial(context);
                 //setConectorVisibility("c_recobrimento_palatino_mediano");
               },
             ),
@@ -428,5 +440,232 @@ class _MaxilaState extends State<Maxila> {
     );
   }
 
+  void showModalDentesComAckerDistal(BuildContext context) {
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height *0.3,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+            ),
+            ListTile(
+              title: new Text("14"),
+              onTap: () {
+                setGrampoVisibility("14","distal");
+              },
+            ),
+            ListTile(
+              title: new Text("15"),
+              onTap: () {
+                setGrampoVisibility("15","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('16'),
+              onTap: () {
+                setGrampoVisibility("16","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('17'),
+              onTap: () {
+                setGrampoVisibility("17","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('18'),
+              onTap: () {
+                setGrampoVisibility("18","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('24'),
+              onTap: () {
+                setGrampoVisibility("24","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('25'),
+              onTap: () {
+                setGrampoVisibility("25","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('26'),
+              onTap: () {
+                setGrampoVisibility("26","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('27'),
+              onTap: () {
+                setGrampoVisibility("27","distal");
+              },
+            ),
+            ListTile(
+              title: new Text('28'),
+              onTap: () {
+                setGrampoVisibility("28","distal");
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showModalDentesComAckerMesial(BuildContext context) {
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height *0.3,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+            ),
+            ListTile(
+              title: new Text("14"),
+              onTap: () {
+                setGrampoVisibility("14","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text("15"),
+              onTap: () {
+                setGrampoVisibility("15","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('16'),
+              onTap: () {
+                setGrampoVisibility("16","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('17'),
+              onTap: () {
+                setGrampoVisibility("17","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('18'),
+              onTap: () {
+                setGrampoVisibility("18","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('24'),
+              onTap: () {
+                setGrampoVisibility("24","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('25'),
+              onTap: () {
+                setGrampoVisibility("25","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('26'),
+              onTap: () {
+                setGrampoVisibility("26","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('27'),
+              onTap: () {
+                setGrampoVisibility("27","mesial");
+              },
+            ),
+            ListTile(
+              title: new Text('28'),
+              onTap: () {
+                setGrampoVisibility("28","mesial");
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showModalDentesComCircuferencial(BuildContext context) {
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height *0.3,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+            ),
+            ListTile(
+              title: new Text("11"),
+              onTap: () {
+                setGrampoVisibility("11","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text("12"),
+              onTap: () {
+                setGrampoVisibility("12","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('13'),
+              onTap: () {
+                setGrampoVisibility("13","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('21'),
+              onTap: () {
+                setGrampoVisibility("21","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('22'),
+              onTap: () {
+                setGrampoVisibility("22","circunferencial");
+              },
+            ),
+            ListTile(
+              title: new Text('23'),
+              onTap: () {
+                setGrampoVisibility("23","circunferencial");
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void setGrampoVisibility(String s, String tipoGrampo) {
+    String denteName = "dente$s";
+    String selaName = "sela$s";
+    if(maxila != null){
+      var grampo = maxila!.children.firstWhere((element) => element.name!.contains(tipoGrampo) && element.name!.contains(s));
+      var objsNaPosicao = maxila!.children.where((element) => element.name!.contains(s) && element.visiable && element.name!.contains("g_") && element.name != grampo.name).toList();
+      objsNaPosicao.forEach((element) {element.visiable =false;});
+      var denteisActive = maxila!.children.firstWhere((element) => element.name!.contains(denteName)).visiable;
+      var selaisActive = maxila!.children.firstWhere((element) => element.name!.contains(selaName)).visiable;
+
+      if(denteisActive && !selaisActive){
+        if(grampo.visiable){
+          grampo.visiable =false;
+        }else{
+          grampo.visiable = true;
+        }
+      }
+      maxila!.scene!.update();
+    }
+  }
 
 }

@@ -1,19 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_cube/flutter_cube.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:proteasy/models.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Mandibula extends StatefulWidget {
-  const Mandibula({Key? key}) : super(key: key);
+  String? mandName;
+
+  Mandibula({Key? key, this.mandName}) : super(key: key);
 
   @override
-  _MandibulaState createState() => _MandibulaState();
+  MandibulaState createState() => MandibulaState();
 }
 
-class _MandibulaState extends State<Mandibula> {
+class MandibulaState extends State<Mandibula> {
   Object? mandibula;
+
+  Object? get mandibulaState => mandibula;
 
   @override
   void initState() {
+    super.initState();
     mandibula = Object(
         fileName: "assets/objects/tudo_mandibula.obj",
         lighting: true,
@@ -21,7 +30,9 @@ class _MandibulaState extends State<Mandibula> {
         isAsset: true,
         name: "Mandibula",
         visiable: true);
-    super.initState();
+
+    // var a = jsonEncode(mandibula);
+    // var b = jsonDecode(a);
   }
 
   @override
@@ -47,6 +58,9 @@ class _MandibulaState extends State<Mandibula> {
                 element.visiable = false;
               });
               gengiva.visiable = true;
+              if (widget.mandName != null && widget.mandName != "") {
+                recoverInstance(widget.mandName);
+              }
             }
           },
         ),
@@ -73,16 +87,23 @@ class _MandibulaState extends State<Mandibula> {
               showModalDentes(context);
             },
           ),
-          ListTile(title: new Text('Grampos'),
-          onTap: (){
-            showModalGrampos(context);
-          },),
-          ListTile(title: new Text('Selas'),onTap: () {
-            showModalSelas(context);
-          }),
-          ListTile(title: new Text('Conectores'), onTap: (){
-            showModalConectores(context);
-          },)
+          ListTile(
+            title: new Text('Grampos'),
+            onTap: () {
+              showModalGrampos(context);
+            },
+          ),
+          ListTile(
+              title: new Text('Selas'),
+              onTap: () {
+                showModalSelas(context);
+              }),
+          ListTile(
+            title: new Text('Conectores'),
+            onTap: () {
+              showModalConectores(context);
+            },
+          )
         ],
       ),
     );
@@ -92,12 +113,14 @@ class _MandibulaState extends State<Mandibula> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o dente que deseja remover"),),
+              child: ListTile(
+                title: new Text("Escolha o dente que deseja remover"),
+              ),
             ),
             ListTile(
               title: new Text("38"),
@@ -203,13 +226,21 @@ class _MandibulaState extends State<Mandibula> {
 
   void setdenteVisibility(String s) {
     String name = "dente$s";
-    if(mandibula != null){
-      var objsNaPosicao = mandibula!.children.where((element) => element.name!.contains(s) && element.visiable && element.name != name).toList();
-      objsNaPosicao.forEach((element) {element.visiable =false;});
-      var dente = mandibula!.children.firstWhere((element) => element.name!.contains(name));
-      if(dente.visiable){
+    if (mandibula != null) {
+      var objsNaPosicao = mandibula!.children
+          .where((element) =>
+              element.name!.contains(s) &&
+              element.visiable &&
+              element.name != name)
+          .toList();
+      objsNaPosicao.forEach((element) {
+        element.visiable = false;
+      });
+      var dente = mandibula!.children
+          .firstWhere((element) => element.name!.contains(name));
+      if (dente.visiable) {
         dente.visiable = false;
-      }else{
+      } else {
         dente.visiable = true;
       }
       mandibula!.scene!.update();
@@ -220,12 +251,14 @@ class _MandibulaState extends State<Mandibula> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o sela que deseja inserir"),),
+              child: ListTile(
+                title: new Text("Escolha o sela que deseja inserir"),
+              ),
             ),
             ListTile(
               title: new Text("38"),
@@ -329,26 +362,34 @@ class _MandibulaState extends State<Mandibula> {
     );
   }
 
-
   void setSelaVisibility(String s) {
     String denteName = "dente$s";
     String selaName = "sela$s";
-    if(mandibula != null){
-      var objsNaPosicao = mandibula!.children.where((element) => element.name!.contains(s) && element.visiable && element.name != selaName).toList();
-      objsNaPosicao.forEach((element) {element.visiable =false;});
-      var dente = mandibula!.children.firstWhere((element) => element.name!.contains(denteName));
-      var sela = mandibula!.children.firstWhere((element) => element.name!.contains(selaName));
+    if (mandibula != null) {
+      var objsNaPosicao = mandibula!.children
+          .where((element) =>
+              element.name!.contains(s) &&
+              element.visiable &&
+              element.name != selaName)
+          .toList();
+      objsNaPosicao.forEach((element) {
+        element.visiable = false;
+      });
+      var dente = mandibula!.children
+          .firstWhere((element) => element.name!.contains(denteName));
+      var sela = mandibula!.children
+          .firstWhere((element) => element.name!.contains(selaName));
 
-      if(dente.visiable){
+      if (dente.visiable) {
         dente.visiable = false;
         sela.visiable = true;
         //sela.lighting = false;
-      }else{
+      } else {
         if (sela.visiable) {
           dente.visiable = true;
           sela.visiable = false;
           //sela.lighting = true;
-        }else{
+        } else {
           sela.visiable = true;
           //sela.lighting = false;
         }
@@ -358,17 +399,18 @@ class _MandibulaState extends State<Mandibula> {
     }
   }
 
-
   void showModalConectores(BuildContext context) {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o conector que deseja inserir"),),
+              child: ListTile(
+                title: new Text("Escolha o conector que deseja inserir"),
+              ),
             ),
             ListTile(
               title: new Text("Barra Lingual"),
@@ -390,13 +432,19 @@ class _MandibulaState extends State<Mandibula> {
 
   void setConectorVisibility(String s) {
     String name = "$s";
-    if(mandibula != null){
-      var conectores = mandibula!.children.where((element) => element.name!.contains("c_") && element.visiable ==true && element.name! != s);
-      conectores.forEach((element) {element.visiable = false;});
-      var conector = mandibula!.children.firstWhere((element) => element.name!.contains(name));
-      if(conector.visiable){
+    if (mandibula != null) {
+      var conectores = mandibula!.children.where((element) =>
+          element.name!.contains("c_") &&
+          element.visiable == true &&
+          element.name! != s);
+      conectores.forEach((element) {
+        element.visiable = false;
+      });
+      var conector = mandibula!.children
+          .firstWhere((element) => element.name!.contains(name));
+      if (conector.visiable) {
         conector.visiable = false;
-      }else{
+      } else {
         conector.visiable = true;
       }
       mandibula!.scene!.update();
@@ -407,12 +455,14 @@ class _MandibulaState extends State<Mandibula> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o grampo que deseja inserir"),),
+              child: ListTile(
+                title: new Text("Escolha o grampo que deseja inserir"),
+              ),
             ),
             ListTile(
               title: new Text("Ackers Distal"),
@@ -452,71 +502,73 @@ class _MandibulaState extends State<Mandibula> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+              child: ListTile(
+                title: new Text("Escolha o dente que deseja selecionar"),
+              ),
             ),
             ListTile(
               title: new Text("34"),
               onTap: () {
-                setGrampoVisibility("34","distal");
+                setGrampoVisibility("34", "distal");
               },
             ),
             ListTile(
               title: new Text("35"),
               onTap: () {
-                setGrampoVisibility("35","distal");
+                setGrampoVisibility("35", "distal");
               },
             ),
             ListTile(
               title: new Text('36'),
               onTap: () {
-                setGrampoVisibility("36","distal");
+                setGrampoVisibility("36", "distal");
               },
             ),
             ListTile(
               title: new Text('37'),
               onTap: () {
-                setGrampoVisibility("37","distal");
+                setGrampoVisibility("37", "distal");
               },
             ),
             ListTile(
               title: new Text('38'),
               onTap: () {
-                setGrampoVisibility("38","distal");
+                setGrampoVisibility("38", "distal");
               },
             ),
             ListTile(
               title: new Text('44'),
               onTap: () {
-                setGrampoVisibility("44","distal");
+                setGrampoVisibility("44", "distal");
               },
             ),
             ListTile(
               title: new Text('45'),
               onTap: () {
-                setGrampoVisibility("45","distal");
+                setGrampoVisibility("45", "distal");
               },
             ),
             ListTile(
               title: new Text('46'),
               onTap: () {
-                setGrampoVisibility("46","distal");
+                setGrampoVisibility("46", "distal");
               },
             ),
             ListTile(
               title: new Text('47'),
               onTap: () {
-                setGrampoVisibility("47","distal");
+                setGrampoVisibility("47", "distal");
               },
             ),
             ListTile(
               title: new Text('48'),
               onTap: () {
-                setGrampoVisibility("48","distal");
+                setGrampoVisibility("48", "distal");
               },
             ),
           ],
@@ -529,71 +581,73 @@ class _MandibulaState extends State<Mandibula> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+              child: ListTile(
+                title: new Text("Escolha o dente que deseja selecionar"),
+              ),
             ),
             ListTile(
               title: new Text("34"),
               onTap: () {
-                setGrampoVisibility("34","mesial");
+                setGrampoVisibility("34", "mesial");
               },
             ),
             ListTile(
               title: new Text("35"),
               onTap: () {
-                setGrampoVisibility("35","mesial");
+                setGrampoVisibility("35", "mesial");
               },
             ),
             ListTile(
               title: new Text('36'),
               onTap: () {
-                setGrampoVisibility("36","mesial");
+                setGrampoVisibility("36", "mesial");
               },
             ),
             ListTile(
               title: new Text('37'),
               onTap: () {
-                setGrampoVisibility("37","mesial");
+                setGrampoVisibility("37", "mesial");
               },
             ),
             ListTile(
               title: new Text('38'),
               onTap: () {
-                setGrampoVisibility("38","mesial");
+                setGrampoVisibility("38", "mesial");
               },
             ),
             ListTile(
               title: new Text('44'),
               onTap: () {
-                setGrampoVisibility("44","mesial");
+                setGrampoVisibility("44", "mesial");
               },
             ),
             ListTile(
               title: new Text('45'),
               onTap: () {
-                setGrampoVisibility("45","mesial");
+                setGrampoVisibility("45", "mesial");
               },
             ),
             ListTile(
               title: new Text('46'),
               onTap: () {
-                setGrampoVisibility("46","mesial");
+                setGrampoVisibility("46", "mesial");
               },
             ),
             ListTile(
               title: new Text('47'),
               onTap: () {
-                setGrampoVisibility("47","mesial");
+                setGrampoVisibility("47", "mesial");
               },
             ),
             ListTile(
               title: new Text('48'),
               onTap: () {
-                setGrampoVisibility("48","mesial");
+                setGrampoVisibility("48", "mesial");
               },
             ),
           ],
@@ -606,47 +660,49 @@ class _MandibulaState extends State<Mandibula> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+              child: ListTile(
+                title: new Text("Escolha o dente que deseja selecionar"),
+              ),
             ),
             ListTile(
               title: new Text("31"),
               onTap: () {
-                setGrampoVisibility("31","circunferencial");
+                setGrampoVisibility("31", "circunferencial");
               },
             ),
             ListTile(
               title: new Text("32"),
               onTap: () {
-                setGrampoVisibility("32","circunferencial");
+                setGrampoVisibility("32", "circunferencial");
               },
             ),
             ListTile(
               title: new Text('33'),
               onTap: () {
-                setGrampoVisibility("33","circunferencial");
+                setGrampoVisibility("33", "circunferencial");
               },
             ),
             ListTile(
               title: new Text('41'),
               onTap: () {
-                setGrampoVisibility("41","circunferencial");
+                setGrampoVisibility("41", "circunferencial");
               },
             ),
             ListTile(
               title: new Text('42'),
               onTap: () {
-                setGrampoVisibility("42","circunferencial");
+                setGrampoVisibility("42", "circunferencial");
               },
             ),
             ListTile(
               title: new Text('43'),
               onTap: () {
-                setGrampoVisibility("43","circunferencial");
+                setGrampoVisibility("43", "circunferencial");
               },
             ),
           ],
@@ -659,38 +715,39 @@ class _MandibulaState extends State<Mandibula> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height *0.3,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: ListTile(title: new Text("Escolha o dente que deseja selecionar"),),
+              child: ListTile(
+                title: new Text("Escolha o dente que deseja selecionar"),
+              ),
             ),
             ListTile(
               title: new Text("31"),
               onTap: () {
-                setGrampoVisibility("31","kennedy");
+                setGrampoVisibility("31", "kennedy");
               },
             ),
             ListTile(
               title: new Text("32"),
               onTap: () {
-                setGrampoVisibility("32","kennedy");
+                setGrampoVisibility("32", "kennedy");
               },
             ),
             ListTile(
               title: new Text('41'),
               onTap: () {
-                setGrampoVisibility("41","kennedy");
+                setGrampoVisibility("41", "kennedy");
               },
             ),
             ListTile(
               title: new Text('42'),
               onTap: () {
-                setGrampoVisibility("42","kennedy");
+                setGrampoVisibility("42", "kennedy");
               },
             ),
-
           ],
         ),
       ),
@@ -700,17 +757,30 @@ class _MandibulaState extends State<Mandibula> {
   void setGrampoVisibility(String s, String tipoGrampo) {
     String denteName = "dente$s";
     String selaName = "sela$s";
-    if(mandibula != null){
-      var grampo = mandibula!.children.firstWhere((element) => element.name!.contains(tipoGrampo) && element.name!.contains(s));
-      var objsNaPosicao = mandibula!.children.where((element) => element.name!.contains(s) && element.visiable && element.name!.contains("g_") && element.name != grampo.name).toList();
-      objsNaPosicao.forEach((element) {element.visiable =false;});
-      var denteisActive = mandibula!.children.firstWhere((element) => element.name!.contains(denteName)).visiable;
-      var selaisActive = mandibula!.children.firstWhere((element) => element.name!.contains(selaName)).visiable;
+    if (mandibula != null) {
+      var grampo = mandibula!.children.firstWhere((element) =>
+          element.name!.contains(tipoGrampo) && element.name!.contains(s));
+      var objsNaPosicao = mandibula!.children
+          .where((element) =>
+              element.name!.contains(s) &&
+              element.visiable &&
+              element.name!.contains("g_") &&
+              element.name != grampo.name)
+          .toList();
+      objsNaPosicao.forEach((element) {
+        element.visiable = false;
+      });
+      var denteisActive = mandibula!.children
+          .firstWhere((element) => element.name!.contains(denteName))
+          .visiable;
+      var selaisActive = mandibula!.children
+          .firstWhere((element) => element.name!.contains(selaName))
+          .visiable;
 
-      if(denteisActive && !selaisActive){
-        if(grampo.visiable){
-          grampo.visiable =false;
-        }else{
+      if (denteisActive && !selaisActive) {
+        if (grampo.visiable) {
+          grampo.visiable = false;
+        } else {
           grampo.visiable = true;
         }
       }
@@ -718,4 +788,17 @@ class _MandibulaState extends State<Mandibula> {
     }
   }
 
+  void recoverInstance(String? mandName) async {
+    final prefs = await SharedPreferences.getInstance();
+    var keys = prefs.getKeys().toList();
+    var ret = jsonDecode(prefs.getString(mandName!)!);
+    ObjectInstance obj = ObjectInstance.fromJson(ret);
+    obj.objects!.forEach((e) {
+      mandibula!.children.forEach((f) {
+        if (f.name == e.name) {
+          f.visiable = e.visible!;
+        }
+      });
+    });
+  }
 }

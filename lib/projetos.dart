@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:proteasy/models.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 import 'exercicios.dart';
 import 'package:proteasy/projeto.dart';
@@ -17,96 +21,86 @@ class _ProjetosState extends State<Projetos> {
   bool _showNotch = true;
   FloatingActionButtonLocation _fabLocation =
       FloatingActionButtonLocation.endFloat;
+  SharedPreferences? prefs;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> setPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      home: Builder(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text('Projetos'),
-          ),
-          body: ListView(
-              children: <Widget>[
-                Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                      children: [
-                        ListTile(
-                          title: const Text('Ana Lima'),
-                          subtitle: Text(
-                            'Classe de Kennedy II',
-                            style: TextStyle(color: Colors.black.withOpacity(0.6)),
+      home: FutureBuilder(
+        future: setPrefs(),
+        builder: (context,snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          List<Widget> _list = [];
+          var keys = prefs!.getKeys().toList();
+          keys.forEach((e) {
+            var ret = jsonDecode(prefs!.getString(e)!);
+            ObjectInstance obj =  ObjectInstance.fromJson(ret);
+            _list.add(ListTile(
+              title:  Text(obj.name!),
+              trailing: Icon(Icons.edit),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => SecondRoute(objMandName: obj.name!,)),
+                );
+              },
+            ));
+            _list.add(Divider(height: 5,));
+          });
+          return Builder(
+            builder: (context) =>
+                Scaffold(
+                  appBar: AppBar(
+                    automaticallyImplyLeading: false,
+                    title: const Text('Projetos'),
+                  ),
+                  body: ListView(
+                      children: <Widget>[
+                        Card(
+                          clipBehavior: Clip.antiAlias,
+                          child: Column(
+                              children: _list
                           ),
-                          trailing: Icon(Icons.arrow_drop_down_circle),
-                          onTap: () {Navigator.push(
-                            context,
-                            new MaterialPageRoute(builder: (context) => SecondRoute()),
-                          );},
                         ),
                       ]
                   ),
-                ),
-                Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                      children: [
-                        ListTile(
-                          title: const Text('João Souza'),
-                          subtitle: Text(
-                            'Classe de Kennedy I',
-                            style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                          ),
-                          trailing: Icon(Icons.arrow_drop_down_circle),
-                          onTap: () {Navigator.push(
-                            context,
-                            new MaterialPageRoute(builder: (context) => SecondRoute()),
-                          );},
-                        ),
-                      ]
+                  floatingActionButton: _showFab
+                      ? FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => SecondRoute()),
+                      );
+                    },
+                    child: const Icon(Icons.add),
+                    tooltip: 'Create',
+                  )
+                      : null,
+                  floatingActionButtonLocation: _fabLocation,
+                  bottomNavigationBar: _DemoBottomAppBar(
+                    fabLocation: _fabLocation,
+                    shape: _showNotch ? const CircularNotchedRectangle() : null,
                   ),
                 ),
-                Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                      children: [
-                        ListTile(
-                          title: const Text('Maria Lima'),
-                          subtitle: Text(
-                            'Classe de Kennedy II',
-                            style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                          ),
-                          trailing: Icon(Icons.arrow_drop_down_circle),
-                          onTap: () {Navigator.push(
-                            context,
-                            new MaterialPageRoute(builder: (context) => SecondRoute()),
-                          );},
-                        ),
-                      ]
-                  ),
-                ),
-              ]
-          ),
-          floatingActionButton: _showFab
-              ? FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => SecondRoute()),
-              );
-            },
-            child: const Icon(Icons.add),
-            tooltip: 'Create',
-          )
-              : null,
-          floatingActionButtonLocation: _fabLocation,
-          bottomNavigationBar: _DemoBottomAppBar(
-            fabLocation: _fabLocation,
-            shape: _showNotch ? const CircularNotchedRectangle() : null,
-          ),
-        ),
+          );
+
+        }
       ),
     );
   }

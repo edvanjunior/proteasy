@@ -54,7 +54,7 @@ class _InfoState extends State<Info> {
 
                        children: [
                          Expanded(child:
-                         Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+                         Text("Proteasy Mobile foi um trabalho proposto para o projeto final da disciplina de Projeto Integrado 2, do Curso de Sistemas e Mídias Digitais, da Universidade Federal do Ceará (UFC). O intuito do aplicativo é servir como uma ferramenta digital de auxílio ao aprendizado dos estudantes do curso de Odontologia, da UFC, especificamente, aqueles que estão fazendo a disciplina de Próteses Parciais Removíveis (PPR). "),
                          )
                        ],
                      ),
@@ -70,7 +70,7 @@ class _InfoState extends State<Info> {
                      Row(
                        children: [
                          Expanded(child:
-                         Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+                         Text("A equipe de desenvolvimento do Proteasy é composta por 5 pessoas: Edvan Junior,Alessander Aquino, Igor Gomes, Neto Ribeiro e Emanuel Mota. Ambos os membros são alunos do curso de Sistemas e Mídias Digitais."),
                          )
                        ],
                      ),
@@ -87,7 +87,7 @@ class _InfoState extends State<Info> {
 
                        children: [
                          Expanded(child:
-                         Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+                         Text("Contamos também com a ajuda técnica e orientação dos professores da disciplina de Projeto Integrado 2, Rafael Carmo e Adriano, e contamos com ajuda da professora Ana Cristina, da disciplina (PPR), que veio até nós com a problemática, na qual, Proteasy tenta solucionar, cuja a principal dor, é a dificuldade de desenhar dos estudantes, no momento de executar exercícios relacionados às próteses."),
                          )
                        ],
                      ),
@@ -103,7 +103,7 @@ class _InfoState extends State<Info> {
                      Row(
                        children: [
                          Expanded(child:
-                         Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+                         Text("proteasyufc@gmail.com"),
                          )
                        ],
                      ),
